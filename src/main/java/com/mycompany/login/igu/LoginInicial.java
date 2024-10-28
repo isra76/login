@@ -2,6 +2,7 @@
 package com.mycompany.login.igu;
 
 import com.mycompany.login.logica.Controladora;
+import com.mycompany.login.logica.Usuario;
 
 
 public class LoginInicial extends javax.swing.JFrame {
@@ -157,18 +158,20 @@ public class LoginInicial extends javax.swing.JFrame {
     private void BtnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnLoginActionPerformed
         String usuario =txtUsuario.getText();
         String contrasenia =txtContrasena.getText();
-        boolean ok = control.validarUsuario(usuario, contrasenia);
+        Usuario usr = control.validarUsuario(usuario, contrasenia);
         
-        if (ok == true) {
-             String rol = control.validarRol(usuario, contrasenia);
+        if (usr !=null) {
+             String rol = usr.getUnRol().getNombreRol();   
+             
              if (rol.equals("admin")){
-                PrincipalAdmin pAdmin = new PrincipalAdmin(control);
+                
+                PrincipalAdmin pAdmin = new PrincipalAdmin(control,usr);
                 pAdmin.setVisible(true);
                 pAdmin.setLocationRelativeTo(null);
                 this.dispose();
              }
             if (rol.equals("user")){
-                PrincipalUser pUser = new PrincipalUser(control);
+                PrincipalUser pUser = new PrincipalUser(control,usr);
                 pUser.setVisible(true);
                 pUser.setLocationRelativeTo(null);
                 this.dispose();

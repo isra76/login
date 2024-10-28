@@ -2,13 +2,17 @@
 package com.mycompany.login.igu;
 
 import com.mycompany.login.logica.Controladora;
+import com.mycompany.login.logica.Usuario;
 
 
 public class PrincipalAdmin extends javax.swing.JFrame {
     Controladora control;
-    public PrincipalAdmin(Controladora control) {
+    Usuario usr;
+    
+    public PrincipalAdmin(Controladora control, Usuario usr) {
         initComponents();
         this.control = control;
+        this.usr =usr;
     }
 
     @SuppressWarnings("unchecked")
@@ -27,6 +31,11 @@ public class PrincipalAdmin extends javax.swing.JFrame {
         txtNombreUser = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setText("SISTEMA DE ADMINISTRADOR DE USUARIOS");
 
@@ -57,6 +66,11 @@ public class PrincipalAdmin extends javax.swing.JFrame {
         btnRecargar.setText("Recargar Tabla");
 
         btnSalir.setText("SALIR");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
 
         txtNombreUser.setEditable(false);
         txtNombreUser.setText("jTextField1");
@@ -72,7 +86,7 @@ public class PrincipalAdmin extends javax.swing.JFrame {
                         .addGap(66, 66, 66)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtNombreUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtNombreUser, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -127,6 +141,14 @@ public class PrincipalAdmin extends javax.swing.JFrame {
     private void btnNuevoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoUsuarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnNuevoUsuarioActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+    this.txtNombreUser.setText(usr.getNombreUsuario());
+    }//GEN-LAST:event_formWindowOpened
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
 
 
 

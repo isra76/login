@@ -7,9 +7,9 @@ import java.util.List;
 public class Controladora {
     ControladoraPersistencia controlPersis =new ControladoraPersistencia();
 
-    public boolean validarUsuario(String usuario, String contrasena) {
+    public Usuario validarUsuario(String usuario, String contrasena) {
         //String mensaje = null;
-        boolean ok = false;
+        Usuario usr=null;
         
         List<Usuario> listaUsuarios = controlPersis.traerUsuarios(); 
     
@@ -17,29 +17,27 @@ public class Controladora {
             if (usu.getNombreUsuario().equals(usuario)){
                 if(usu.getContrasenia().equals(contrasena)){
                     //mensaje = "Usuario y contraseña correctos, Bienvenido/a";
-                    ok = true;
-                    return ok;
+                    usr = usu;
+                    return usr;
                   }
                 else {
                 //mensaje = "Contraseña incorrecta";
-                    ok = false;
-                    return ok;
+                    usr = null;
+                    return usr;
                 }
                   }
                 else{
                 //mensaje = "usuario no encontrado";
                 //return mensaje;
                 
-                    ok = false;
-                    return ok;
+                    usr = null;
+                    //return usr;
                 }
                 }
-                return ok;
+                return usr;
     }
 
-    public String validarRol(String usuario, String contrasenia) {
-    
-    }
+ 
 }   
         
         
