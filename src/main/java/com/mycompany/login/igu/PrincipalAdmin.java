@@ -3,6 +3,8 @@ package com.mycompany.login.igu;
 
 import com.mycompany.login.logica.Controladora;
 import com.mycompany.login.logica.Usuario;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 
 public class PrincipalAdmin extends javax.swing.JFrame {
@@ -22,7 +24,7 @@ public class PrincipalAdmin extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaUsuarios = new javax.swing.JTable();
         btnNuevoUsuario = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         btnBorrar = new javax.swing.JButton();
@@ -39,7 +41,7 @@ public class PrincipalAdmin extends javax.swing.JFrame {
 
         jLabel1.setText("SISTEMA DE ADMINISTRADOR DE USUARIOS");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -50,7 +52,7 @@ public class PrincipalAdmin extends javax.swing.JFrame {
 
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tablaUsuarios);
 
         btnNuevoUsuario.setText("Crear nuevo usuario");
         btnNuevoUsuario.addActionListener(new java.awt.event.ActionListener() {
@@ -139,13 +141,44 @@ public class PrincipalAdmin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNuevoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoUsuarioActionPerformed
-        // TODO add your handling code here:
+    AltaUsuarios altaUsu = new AltaUsuarios(control);
+    altaUsu.setVisible(true);
+    altaUsu.setLocationRelativeTo(null);
+    this.dispose();
     }//GEN-LAST:event_btnNuevoUsuarioActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
     this.txtNombreUser.setText(usr.getNombreUsuario());
+    cargarTabla();
+          
     }//GEN-LAST:event_formWindowOpened
-
+private void cargarTabla() {
+        //definir el modelo que queremos en la tabla
+        DefaultTableModel modeloTabla = new DefaultTableModel(){
+            //que la fila y las columnas no sean editables
+            @Override
+            public boolean isCellEditable (int row, int column){
+            return false; 
+            }
+        };
+        //establecemos los nombres de las columnas
+        String titulos[] = {"Id","Usuario","Rol"};
+        modeloTabla.setColumnIdentifiers(titulos);
+        //traer de la bd la lista de ususraios
+        List<Usuario> listaUsuarios = control.traerUsuarios();
+        
+        //preguntaos si la lista esta vacia
+        if (listaUsuarios!=null){
+        //recorrer una lista de usuarios
+        for(Usuario usu : listaUsuarios){
+            Object[] objeto = {usu.getId(), usu.getNombreUsuario(), usu.getUnRol().getNombreRol()};
+            
+            modeloTabla.addRow(objeto);
+        }
+        }
+  
+        tablaUsuarios.setModel(modeloTabla);
+}
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
@@ -161,7 +194,7 @@ public class PrincipalAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tablaUsuarios;
     private javax.swing.JTextField txtNombreUser;
     // End of variables declaration//GEN-END:variables
 }

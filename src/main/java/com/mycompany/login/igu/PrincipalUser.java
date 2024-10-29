@@ -3,6 +3,7 @@ package com.mycompany.login.igu;
 
 import com.mycompany.login.logica.Controladora;
 import com.mycompany.login.logica.Usuario;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 public class PrincipalUser extends javax.swing.JFrame {
@@ -51,6 +52,11 @@ public class PrincipalUser extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tablaUsuarios);
 
         btnRecargar.setText("Recargar Tabla");
+        btnRecargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRecargarActionPerformed(evt);
+            }
+        });
 
         btnSalir.setText("SALIR");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -118,12 +124,16 @@ public class PrincipalUser extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
       this.txtNombreUser.setText(usr.getNombreUsuario());
-      cargarTabbla();
+      cargarTabla();
     }//GEN-LAST:event_formWindowOpened
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
     this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void btnRecargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecargarActionPerformed
+      cargarTabla();
+    }//GEN-LAST:event_btnRecargarActionPerformed
 
 
 
@@ -137,16 +147,32 @@ public class PrincipalUser extends javax.swing.JFrame {
     private javax.swing.JTextField txtNombreUser;
     // End of variables declaration//GEN-END:variables
 
-    private void cargarTabbla() {
+    private void cargarTabla() {
         //definir el modelo que queremos en la tabla
         DefaultTableModel modeloTabla = new DefaultTableModel(){
             //que la fila y las columnas no sean editables
             @Override
             public boolean isCellEditable (int row, int column){
-            return false;
-            
+            return false; 
             }
-       
-                
-
+        };
+        //establecemos los nombres de las columnas
+        String titulos[] = {"Id","Usuario","Rol"};
+        modeloTabla.setColumnIdentifiers(titulos);
+        //traer de la bd la lista de ususraios
+        List<Usuario> listaUsuarios = control.traerUsuarios();
+        
+        //preguntaos si la lista esta vacia
+        if (listaUsuarios!=null){
+        //recorrer una lista de usuarios
+        for(Usuario usu : listaUsuarios){
+            Object[] objeto = {usu.getId(), usu.getNombreUsuario(), usu.getUnRol().getNombreRol()};
+            
+            modeloTabla.addRow(objeto);
+        }
+        }
+        
+        tablaUsuarios.setModel(modeloTabla);
+        
+    }
 }
