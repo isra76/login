@@ -137,16 +137,25 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Editar Usuario"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnBorrar">
           <Properties>
             <Property name="text" type="java.lang.String" value="Borrar Usuario"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBorrarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnRecargar">
           <Properties>
             <Property name="text" type="java.lang.String" value="Recargar Tabla"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRecargarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnSalir">
           <Properties>

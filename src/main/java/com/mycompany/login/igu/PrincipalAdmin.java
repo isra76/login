@@ -4,6 +4,9 @@ package com.mycompany.login.igu;
 import com.mycompany.login.logica.Controladora;
 import com.mycompany.login.logica.Usuario;
 import java.util.List;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -62,10 +65,25 @@ public class PrincipalAdmin extends javax.swing.JFrame {
         });
 
         btnEditar.setText("Editar Usuario");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnBorrar.setText("Borrar Usuario");
+        btnBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBorrarActionPerformed(evt);
+            }
+        });
 
         btnRecargar.setText("Recargar Tabla");
+        btnRecargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRecargarActionPerformed(evt);
+            }
+        });
 
         btnSalir.setText("SALIR");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -144,7 +162,7 @@ public class PrincipalAdmin extends javax.swing.JFrame {
     AltaUsuarios altaUsu = new AltaUsuarios(control);
     altaUsu.setVisible(true);
     altaUsu.setLocationRelativeTo(null);
-    this.dispose();
+    //this.dispose();
     }//GEN-LAST:event_btnNuevoUsuarioActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -183,7 +201,66 @@ private void cargarTabla() {
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
+    private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
+        // validar Que la tabla tenga elementos
+        if(tablaUsuarios.getRowCount()>0){
+        //Controlar que se haya seleccionado un elemento de la tabla
+        if(tablaUsuarios.getSelectedRow()!=-1){
+            //obtengo la id del elemento a eliminar
+            int id_usuario = Integer.parseInt(String.valueOf(tablaUsuarios.getValueAt(tablaUsuarios.getSelectedRow(), 0)));
+           //llamo al metodo borrar
+           control.borrarUsuario(id_usuario);
+           //avisar al usuario que se borro correctamente
+           mostrarMensaje ("Sé borro el usuario correctamente", "Info", "Eliminación Correcta");
+           cargarTabla();
+        }
+        else {
+            mostrarMensaje("no selecciono ningun registro", "Error", "Error al borrar");
+             }
+        }
+        else {mostrarMensaje("La tabla está vacia", "Error", "Error al borrar");
+        }
+    }//GEN-LAST:event_btnBorrarActionPerformed
 
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+       // validar Que la tabla tenga elementos
+        if(tablaUsuarios.getRowCount()>0){
+        //Controlar que se haya seleccionado un elemento de la tabla
+        if(tablaUsuarios.getSelectedRow()!=-1){
+            //obtengo la id del elemento a eliminar
+            int id_usuario = Integer.parseInt(String.valueOf(tablaUsuarios.getValueAt(tablaUsuarios.getSelectedRow(), 0)));
+            //Llamo a la ventana de edicion
+            EdicionUsuarios pantallaEdic = new EdicionUsuarios(control, id_usuario);
+            pantallaEdic.setVisible(true);
+            pantallaEdic.setLocationRelativeTo(null);
+            
+        }
+        else {
+            mostrarMensaje("no selecciono ningun registro", "Error", "Error al editar");
+             }
+        }
+        else {mostrarMensaje("La tabla está vacia", "Error", "Error al editar");
+        
+      }
+    
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnRecargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecargarActionPerformed
+       cargarTabla();
+    }//GEN-LAST:event_btnRecargarActionPerformed
+
+public void mostrarMensaje (String mensaje,String tipo, String titulo){
+JOptionPane optionPane = new JOptionPane(mensaje);
+if (tipo.equals("Info")){
+    optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+    }
+else if(tipo.equals("Error")){
+    optionPane.setMessageType(JOptionPane.ERROR_MESSAGE);
+    }
+    JDialog dialog = optionPane.createDialog(titulo);
+    dialog.setAlwaysOnTop(true);
+    dialog.setVisible(true);
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBorrar;
